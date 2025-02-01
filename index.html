@@ -11,25 +11,58 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <style>
       /* Custom CSS */
+
+      .btn-arrow {
+        position: absolute;
+        top: 9%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 10;
+      }
+
+      .left {
+        left: 10px;
+      }
+
+      .right {
+        right: 10px;
+      }
+
+      .btn-arrow:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
       .account {
         margin-bottom: 20px;
-        padding: 10px;
       }
 
       .panel-header {
         display: flex;
         align-items: center;
         margin-bottom: 10px;
-      }
-
-      .panel-header img {
-        margin-right: 10px;
+        justify-content: center;
+        width: 100%;
       }
 
       .panel-header h2 {
         margin: 0;
+      }
+      .filter-controls {
+        width: 50%;
+      }
+      .my-content {
+        position: relative;
       }
     </style>
   </head>
@@ -129,7 +162,7 @@
               type="text"
               id="type-filter"
               class="form-control"
-              placeholder="Filter by Type (debit/credit)"
+              placeholder="Filter by Type"
               aria-label="Filter by Type"
             />
           </div>
@@ -180,32 +213,28 @@
 
                 accountDiv.appendChild(panelHeader);
 
-                const filterControlsClone = filterControls.cloneNode(true); 
+                const filterControlsClone = filterControls.cloneNode(true);
                 filterControlsClone.style.display = "block";
                 accountDiv.appendChild(filterControlsClone);
                 const table = document.createElement("table");
                 table.classList.add("table");
                 const thead = document.createElement("thead");
                 const headerRow = thead.insertRow();
-                ["Date", "Type", "Amount", "Details"].forEach((headerText) => {
+                ["Date", "Amount", "Details"].forEach((headerText) => {
                   const th = document.createElement("th");
                   th.textContent = headerText;
                   headerRow.appendChild(th);
                 });
                 table.appendChild(thead);
 
-              
-
                 const tbody = document.createElement("tbody");
                 account.transactions.forEach((transaction) => {
                   const row = tbody.insertRow();
                   const dateCell = row.insertCell();
-                  const typeCell = row.insertCell();
                   const amountCell = row.insertCell();
                   const detailsCell = row.insertCell();
 
                   dateCell.textContent = transaction.date;
-                  typeCell.textContent = transaction.type;
                   amountCell.textContent = transaction.amount.toFixed(2);
                   detailsCell.textContent = transaction.details;
 
@@ -213,16 +242,18 @@
 
                   if (transaction.type === "debit") {
                     amountCell.classList.add("withdrawal");
+                    amountCell.style.color = "green";
                   } else if (transaction.type === "credit") {
                     amountCell.classList.add("deposit");
+                    amountCell.style.color = "red";
                   }
                 });
 
                 table.appendChild(tbody);
                 accountDiv.appendChild(table);
                 accountsContainer.appendChild(accountDiv);
-                const newDiv = document.createElement('div');
-                newDiv.classList.add('new-container');
+                const newDiv = document.createElement("div");
+                newDiv.classList.add("new-container");
                 newDiv.appendChild(filterControlsClone);
                 newDiv.appendChild(table);
                 accountsContainer.appendChild(newDiv);
@@ -232,8 +263,10 @@
 
               // Add navigation buttons (or dropdown, etc.)
               const prevButton = document.createElement("button");
-              prevButton.textContent = "Previous Account";
-              prevButton.classList.add("btn", "btn-primary", "me-2");
+              prevButton.classList.add("btn", "btn-arrow", "left");
+              const iconPrevButton = document.createElement("i");
+              iconPrevButton.classList.add("bi", "bi-arrow-left");
+              prevButton.appendChild(iconPrevButton);
               prevButton.addEventListener("click", () => {
                 currentAccountIndex =
                   (currentAccountIndex - 1 + accounts.length) % accounts.length;
@@ -245,8 +278,10 @@
               );
 
               const nextButton = document.createElement("button");
-              nextButton.textContent = "Next Account";
-              nextButton.classList.add("btn", "btn-primary");
+              nextButton.classList.add("btn", "btn-arrow", "right");
+              const iconNextButton = document.createElement("i");
+              iconNextButton.classList.add("bi", "bi-arrow-right");
+              nextButton.appendChild(iconNextButton);
               nextButton.addEventListener("click", () => {
                 currentAccountIndex =
                   (currentAccountIndex + 1) % accounts.length;
