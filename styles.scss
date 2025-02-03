@@ -37,8 +37,7 @@ html body {
 }
 
 .panel-header {
-    position: relative; /* This will allow the h2 to be positioned relative to this container */
-    width: 100%; /* Ensure the container takes up the full width of its parent */
+    position: relative;
   }
   
   .panel-header img {
@@ -59,4 +58,9 @@ html body {
   .new-container {
     background-color: $white;
     padding-top: 10px;
+  }
+
+  .nav-link.transactions {
+    font-weight: bold;
+    text-decoration: underline;
   }
