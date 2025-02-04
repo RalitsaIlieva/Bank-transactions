@@ -1,66 +1,209 @@
 $background-color: #f4f6f7;
-$white:#fff;
-$green: #2ecc71; 
+$white: #fff;
+$green: #2ecc71;
 
 html body {
-    background-color: $background-color;
-    font-family: Arial, sans-serif;
-  }
+  background-color: $background-color;
+  font-family: Arial, sans-serif;
+}
 
 .nav-item {
-    text-transform: uppercase;
+  text-transform: uppercase;
 }
 
 .custom-white-bg {
-    background-color:$white;
-  }
+  background-color: $white;
+}
 
 .secondary-nav {
-    height: fit-content;
-    text-align: start;
-    border-radius: 3%;
+  height: fit-content;
+  text-align: start;
+  border-radius: 3%;
 }
 
 .new-account {
-    display: inline !important;
-    padding-top: 5px !important;
+  display: inline !important;
+  padding-top: 5px !important;
 }
 
 .new {
-    background-color: $green;
-    border-radius: 5%;
-    color: $white;
-    font-size: 14px;
-    display: inline-flex;
-    text-align: center;
-    padding: 1px;
+  background-color: $green;
+  border-radius: 5%;
+  color: $white;
+  font-size: 14px;
+  display: inline-flex;
+  text-align: center;
+  padding: 1px;
 }
 
 .panel-header {
-    position: relative;
-  }
-  
-  .panel-header img {
-    width: 100%; /* Makes the image span the full width of its parent */
-    height: auto; /* Maintain the aspect ratio of the image */
-  }
-  
+  position: relative;
+}
+
+.panel-header img {
+  width: 100%;
+  height: auto;
+}
+
+.panel-header h2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 2rem;
+  padding: 10px;
+}
+
+@media (max-width: 750px) {
   .panel-header h2 {
-    position: absolute; /* Position the heading on top of the image */
-    top: 50%; /* Place it in the vertical center */
-    left: 50%; /* Place it in the horizontal center */
-    transform: translate(-50%, -50%); /* Adjust the heading to be truly centered */
-    color: white; /* Set the color of the heading to be visible on top of the image */
-    font-size: 2rem; /* Adjust the font size as needed */
-    padding: 10px; /* Optional: padding around the text */
+    font-size: 17px;
   }
+}
 
-  .new-container {
-    background-color: $white;
-    padding-top: 10px;
-  }
+.new-container {
+  background-color: $white;
+  padding-top: 10px;
+  text-align: start;
+  padding-left: 20px;
+  border-radius: 1%;
+}
 
-  .nav-link.transactions {
-    font-weight: bold;
-    text-decoration: underline;
+.nav-link.transactions {
+  font-weight: bold;
+  text-decoration: underline;
+}
+.filter-controls {
+  margin: 15px 0;
+  padding-right: 5px;
+}
+
+.my-content {
+  position: relative;
+}
+
+.bi-chevron-left,
+.bi-chevron-right {
+  color: $white;
+  text-decoration: none;
+}
+
+.account {
+  margin-bottom: 20px;
+}
+
+.arrow-left {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 70px;
+  height: 132px;
+  position: absolute;
+  z-index: 1;
+  border-bottom-left-radius: 8%;
+  cursor: pointer;
+}
+.arrow-right {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 70px;
+  height: 132px;
+  position: absolute;
+  z-index: 1;
+  border-bottom-right-radius: 8%;
+  cursor: pointer;
+  right: 1.6%;
+  top: 0%;
+}
+@media (max-width: 1400px) {
+  .arrow-left,
+  .arrow-right {
+    height: 114px;
   }
+}
+@media (max-width: 1192px) {
+  .arrow-left,
+  .arrow-right {
+    height: 95px;
+  }
+}
+@media (max-width: 994px) {
+  .arrow-left,
+  .arrow-right {
+    height: 70px;
+  }
+}
+
+@media (max-width: 765px) {
+  .arrow-left,
+  .arrow-right {
+    height: 65px;
+  }
+}
+
+@media (max-width: 570px) {
+  .arrow-right {
+    height: 65px;
+  }
+}
+@media (max-width: 500px) {
+  .arrow-left,
+  .arrow-right {
+    height: 52px;
+  }
+}
+@media (max-width: 415px) {
+  .arrow-left,
+  .arrow-right {
+    height: 43px;
+  }
+}
+.btn-arrow {
+  top: 9%;
+  color:$white;
+  font-size: 20px;
+  z-index: 10;
+  position: absolute;
+  top: 30%;
+}
+
+.left {
+  left: 10px;
+}
+
+.right {
+  right: 10px;
+}
+
+.pagination {
+  position: absolute;
+  bottom: 1%;
+  left: 3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#accounts-container {
+  padding-bottom: 2.5rem;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: $white;
+  background-color:#e59866;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination button:disabled {
+  background-color: $background-color;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.pagination button:hover {
+  background-color: #dc7633;
+}

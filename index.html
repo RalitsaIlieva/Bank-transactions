@@ -17,110 +17,6 @@
     />
     <style>
       /* Custom CSS */
-      .arrow-left {
-        background-color: rgba(0, 0, 0, 0.2);
-        width: 70px;
-        height: 132px;
-        position: absolute;
-        z-index: 1;
-        border-bottom-left-radius: 8%;
-        cursor: pointer;
-      }
-      .arrow-right {
-        background-color: rgba(0, 0, 0, 0.2);
-        width: 70px;
-        height: 132px;
-        position: absolute;
-        z-index: 1;
-        border-bottom-right-radius: 8%;
-        cursor: pointer;
-        right: 1.6%;
-        top: 0%;
-      }
-      @media (max-width: 1400px) {
-        .arrow-left, .arrow-right{
-          height: 114px; 
-        }
-      }
-      @media (max-width: 1192px) {
-        .arrow-left, .arrow-right{
-          height: 95px; 
-        }
-      }
-      @media (max-width: 994px) {
-        .arrow-left, .arrow-right {
-          height: 70px; 
-          
-        }
-      }
-      
-      @media (max-width: 765px) {
-        .arrow-left, .arrow-right{
-          height: 65px; 
-        }
-      }
-
-      @media (max-width: 570px) {
-        .arrow-right {
-          height: 65px; 
-        }
-      }
-      @media (max-width: 500px) {
-        .arrow-left, .arrow-right{
-          height: 52px; 
-        }
-      }
-      @media (max-width: 415px) {
-        .arrow-left, .arrow-right{
-          height: 43px;
-        }
-      }
-      .btn-arrow {
-        top: 9%;
-        color: white;
-        font-size: 20px;
-        z-index: 10;
-        position: absolute;
-        top: 30%;
-      }
-
-      .bi-chevron-left {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .left {
-        left: 10px;
-      }
-
-      .right {
-        right: 10px;
-      }
-
-      .account {
-        margin-bottom: 20px;
-      }
-
-      .panel-header h2 {
-        margin: 0;
-      }
-      @media (max-width: 750px) {
-        .panel-header h2 {
-          font-size: 17px;
-        }
-      }
-      .filter-controls {
-        margin: 15px 0;
-        padding-right: 5px;
-      }
-      .my-content {
-        position: relative;
-      }
-      .new-container {
-        text-align: start;
-        padding-left: 20px;
-        border-radius: 1%;
-      }
     </style>
   </head>
   <body>
@@ -207,7 +103,9 @@
         </nav>
 
         <main class="container mt-4 my-content col-10 col-md-8">
-          <div class="filter-controls d-flex flex-column flex-md-row gap-2 mb-3 col-12 col-md-8">
+          <div
+            class="filter-controls d-flex flex-column flex-md-row gap-2 mb-3 col-12 col-md-8"
+          >
             <input
               type="text"
               id="date-filter"
@@ -247,7 +145,8 @@
               let currentAccountIndex = 0; // Keep track of the currently displayed account
               const filterControls = document.querySelector(".filter-controls");
               filterControls.parentNode.removeChild(filterControls);
-
+              let currentPage = 1;
+              const rowsPerPage = 3;
               function displayAccount(index) {
                 accountsContainer.innerHTML = ""; // Clear previous account data
 
@@ -281,9 +180,14 @@
                   headerRow.appendChild(th);
                 });
                 table.appendChild(thead);
-
+                const startIdx = (currentPage - 1) * rowsPerPage;
+                const endIdx = startIdx + rowsPerPage;
+                let transactionsToDisplay = account.transactions.slice(
+                  startIdx,
+                  endIdx
+                );
                 const tbody = document.createElement("tbody");
-                account.transactions.forEach((transaction) => {
+                transactionsToDisplay.forEach((transaction) => {
                   const row = tbody.insertRow();
                   const dateCell = row.insertCell();
                   const amountCell = row.insertCell();
@@ -307,6 +211,33 @@
                 table.appendChild(tbody);
                 accountDiv.appendChild(table);
                 accountsContainer.appendChild(accountDiv);
+
+                const paginationDiv = document.createElement("div");
+                paginationDiv.classList.add("pagination");
+
+                const prevButton = document.createElement("button");
+                prevButton.classList.add("btn", "btn-pagination", "prev");
+                prevButton.textContent = "Previous";
+                prevButton.disabled = currentPage === 1;
+                prevButton.addEventListener("click", () => {
+                  currentPage--;
+                  displayAccount(index);
+                });
+                paginationDiv.appendChild(prevButton);
+
+                const nextButton = document.createElement("button");
+                nextButton.classList.add("btn", "btn-pagination", "next");
+                nextButton.textContent = "Next";
+                nextButton.disabled =
+                  currentPage * rowsPerPage >= account.transactions.length;
+                nextButton.addEventListener("click", () => {
+                  currentPage++;
+                  displayAccount(index);
+                });
+
+                paginationDiv.appendChild(nextButton);
+                accountsContainer.appendChild(paginationDiv);
+
                 const newDiv = document.createElement("div");
                 newDiv.classList.add("new-container");
                 const tableHeading = document.createElement("h5");
@@ -317,15 +248,27 @@
                 newDiv.appendChild(filterControlsClone);
                 newDiv.appendChild(table);
                 accountsContainer.appendChild(newDiv);
+
                 toggleNavigationButtons(index);
                 const filterByType = document.getElementById("type-filter");
                 filterByType.addEventListener("keydown", function (event) {
                   if (event.key === "Enter") {
                     const filterValue = filterByType.value.trim();
 
-                    filterTable(filterValue.toLowerCase());
+                    filterTable(
+                      filterValue.toLowerCase(),
+                      account.transactions
+                    );
                   }
                 });
+                const filterByDate = document.getElementById("date-filter");
+                filterByDate.addEventListener("keydown", function (event) {
+                  if (event.key === "Enter") {
+                    const filterValue = filterByDate.value.trim();
+                    filterTableByDate(filterValue);
+                  }
+                });
+                togglePagesButtons(index, accounts, rowsPerPage, currentPage);
               }
 
               // Add navigation buttons (or dropdown, etc.)
