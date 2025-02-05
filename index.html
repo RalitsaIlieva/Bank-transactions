@@ -219,24 +219,21 @@
 
                 toggleNavigationButtons(index);
                 const filterByType = document.getElementById("type-filter");
-                filterByType.addEventListener("input", function (event) {
-                  const filterValue = filterByType.value.trim().toLowerCase();
-
-                  if (filterValue === "") {
-                    filterTable("");
-                  } else {
-                    filterTable(filterValue);
-                  }
-                });
                 const filterByDate = document.getElementById("date-filter");
-                filterByDate.addEventListener("input", function (event) {
-                  const filterValue = filterByDate.value.trim();
+                filterByType.addEventListener("input", function (event) {
+                  const filterTypeValue = filterByType.value
+                    .trim()
+                    .toLowerCase();
+                  const filterDateValue = filterByDate.value.trim();
+                  filterTable(filterTypeValue, filterDateValue); 
+                });
 
-                  if (filterValue === "") {
-                    filterTableByDate(""); 
-                  } else {
-                    filterTableByDate(filterValue);
-                  }
+                filterByDate.addEventListener("input", function (event) {
+                  const filterTypeValue = filterByType.value
+                    .trim()
+                    .toLowerCase();
+                  const filterDateValue = filterByDate.value.trim();
+                  filterTable(filterTypeValue, filterDateValue); 
                 });
               }
 

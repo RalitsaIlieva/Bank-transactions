@@ -1,53 +1,34 @@
-function filterTable(filterValue) {
+function filterTable(filterTypeValue, filterDateValue) {
   const rows = document.querySelectorAll(".table.table-striped tbody tr");
 
   rows.forEach((row) => {
     const cells = row.querySelectorAll("td");
+    const dateCell = row.cells[0]; 
+    const rowDate = dateCell.textContent.trim();
 
-    if (filterValue === "debit") {
-      const hasClass = Array.from(cells).some((cell) =>
-        cell.classList.contains("withdrawal")
-      );
-      if (hasClass) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
-      }
-    } else if (filterValue === "credit") {
-      const hasClass = Array.from(cells).some((cell) =>
-        cell.classList.contains("deposit")
-      );
-      if (hasClass) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
-      }
-    } else {
+    const isDebit = Array.from(cells).some((cell) =>
+      cell.classList.contains("withdrawal")
+    );
+    const isCredit = Array.from(cells).some((cell) =>
+      cell.classList.contains("deposit")
+    );
+
+    const matchesType =
+      (filterTypeValue === "debit" && isDebit) ||
+      (filterTypeValue === "credit" && isCredit) ||
+      filterTypeValue === ""; 
+
+    const matchesDate =
+      filterDateValue === "" || rowDate === filterDateValue; 
+
+    if (matchesType && matchesDate) {
       row.style.display = "";
+    } else {
+      row.style.display = "none";
     }
   });
 }
 
-function filterTableByDate(selectedDate) {
-  const rows = document.querySelectorAll(".table.table-striped tbody tr");
-
-  if (selectedDate === "") {
-    rows.forEach((row) => {
-      row.style.display = ""; 
-    });
-  } else {
-    Array.from(rows).forEach((row) => {
-      const dateCell = row.cells[0]; 
-      const rowDate = dateCell.textContent.trim();
-
-      if (rowDate === selectedDate) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
-      }
-    });
-  }
-}
 function toggleNavigationButtons(index) {
   const prevDiv = document.querySelector(".arrow-left");
   const nextDiv = document.querySelector(".arrow-right");
