@@ -145,8 +145,7 @@
               let currentAccountIndex = 0; // Keep track of the currently displayed account
               const filterControls = document.querySelector(".filter-controls");
               filterControls.parentNode.removeChild(filterControls);
-              let currentPage = 1;
-              const rowsPerPage = 3;
+
               function displayAccount(index) {
                 accountsContainer.innerHTML = ""; // Clear previous account data
 
@@ -180,14 +179,9 @@
                   headerRow.appendChild(th);
                 });
                 table.appendChild(thead);
-                const startIdx = (currentPage - 1) * rowsPerPage;
-                const endIdx = startIdx + rowsPerPage;
-                let transactionsToDisplay = account.transactions.slice(
-                  startIdx,
-                  endIdx
-                );
+
                 const tbody = document.createElement("tbody");
-                transactionsToDisplay.forEach((transaction) => {
+                account.transactions.forEach((transaction) => {
                   const row = tbody.insertRow();
                   const dateCell = row.insertCell();
                   const amountCell = row.insertCell();
@@ -212,32 +206,6 @@
                 accountDiv.appendChild(table);
                 accountsContainer.appendChild(accountDiv);
 
-                const paginationDiv = document.createElement("div");
-                paginationDiv.classList.add("pagination");
-
-                const prevButton = document.createElement("button");
-                prevButton.classList.add("btn", "btn-pagination", "prev");
-                prevButton.textContent = "Previous";
-                prevButton.disabled = currentPage === 1;
-                prevButton.addEventListener("click", () => {
-                  currentPage--;
-                  displayAccount(index);
-                });
-                paginationDiv.appendChild(prevButton);
-
-                const nextButton = document.createElement("button");
-                nextButton.classList.add("btn", "btn-pagination", "next");
-                nextButton.textContent = "Next";
-                nextButton.disabled =
-                  currentPage * rowsPerPage >= account.transactions.length;
-                nextButton.addEventListener("click", () => {
-                  currentPage++;
-                  displayAccount(index);
-                });
-
-                paginationDiv.appendChild(nextButton);
-                accountsContainer.appendChild(paginationDiv);
-
                 const newDiv = document.createElement("div");
                 newDiv.classList.add("new-container");
                 const tableHeading = document.createElement("h5");
@@ -251,24 +219,25 @@
 
                 toggleNavigationButtons(index);
                 const filterByType = document.getElementById("type-filter");
-                filterByType.addEventListener("keydown", function (event) {
-                  if (event.key === "Enter") {
-                    const filterValue = filterByType.value.trim();
+                filterByType.addEventListener("input", function (event) {
+                  const filterValue = filterByType.value.trim().toLowerCase();
 
-                    filterTable(
-                      filterValue.toLowerCase(),
-                      account.transactions
-                    );
+                  if (filterValue === "") {
+                    filterTable("");
+                  } else {
+                    filterTable(filterValue);
                   }
                 });
                 const filterByDate = document.getElementById("date-filter");
-                filterByDate.addEventListener("keydown", function (event) {
-                  if (event.key === "Enter") {
-                    const filterValue = filterByDate.value.trim();
+                filterByDate.addEventListener("input", function (event) {
+                  const filterValue = filterByDate.value.trim();
+
+                  if (filterValue === "") {
+                    filterTableByDate(""); 
+                  } else {
                     filterTableByDate(filterValue);
                   }
                 });
-                togglePagesButtons(index, accounts, rowsPerPage, currentPage);
               }
 
               // Add navigation buttons (or dropdown, etc.)

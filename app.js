@@ -1,13 +1,5 @@
-function filterTable(filterValue, transactions) {
+function filterTable(filterValue) {
   const rows = document.querySelectorAll(".table.table-striped tbody tr");
-
-  let filteredTransactions = transactions;
-
-  if (filterValue === "debit") {
-    filteredTransactions = transactions.filter(transaction => transaction.type === "debit");
-  } else if (filterValue === "credit") {
-    filteredTransactions = transactions.filter(transaction => transaction.type === "credit");
-  }
 
   rows.forEach((row) => {
     const cells = row.querySelectorAll("td");
@@ -34,23 +26,27 @@ function filterTable(filterValue, transactions) {
       row.style.display = "";
     }
   });
-
-  return filteredTransactions;
 }
 
 function filterTableByDate(selectedDate) {
   const rows = document.querySelectorAll(".table.table-striped tbody tr");
-  
-  Array.from(rows).forEach((row) => {
-    const dateCell = row.cells[0];
-    const rowDate = dateCell.textContent;
 
-    if (rowDate === selectedDate) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
-  });
+  if (selectedDate === "") {
+    rows.forEach((row) => {
+      row.style.display = ""; 
+    });
+  } else {
+    Array.from(rows).forEach((row) => {
+      const dateCell = row.cells[0]; 
+      const rowDate = dateCell.textContent.trim();
+
+      if (rowDate === selectedDate) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+    });
+  }
 }
 function toggleNavigationButtons(index) {
   const prevDiv = document.querySelector(".arrow-left");
