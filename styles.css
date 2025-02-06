@@ -7,8 +7,8 @@ html body {
   text-transform: uppercase;
 }
 
-.custom-white-bg {
-  background-color: #fff;
+.nav-link {
+  cursor: auto;
 }
 
 .secondary-nav {
@@ -16,6 +16,7 @@ html body {
   height: fit-content;
   text-align: start;
   border-radius: 3%;
+  background-color: #fff;
 }
 
 .new-account {
@@ -54,7 +55,7 @@ html body {
 
 @media (max-width: 750px) {
   .panel-header h2 {
-    font-size: 17px;
+    font-size: 1.2rem;
   }
 }
 .new-container {
@@ -82,7 +83,6 @@ html body {
 .bi-chevron-left,
 .bi-chevron-right {
   color: #fff;
-  text-decoration: none;
 }
 
 .account {
@@ -95,8 +95,8 @@ html body {
   height: 132px;
   position: absolute;
   z-index: 1;
-  border-bottom-left-radius: 8%;
   cursor: pointer;
+  border-bottom-left-radius: 9%;
 }
 
 .arrow-right {
@@ -105,8 +105,8 @@ html body {
   height: 132px;
   position: absolute;
   z-index: 1;
-  border-bottom-right-radius: 8%;
   cursor: pointer;
+  border-bottom-right-radius: 9%;
   right: 1.6%;
   top: 0%;
 }
@@ -128,6 +128,9 @@ html body {
   .arrow-right {
     height: 70px;
   }
+  .arrow-right {
+    right: 2.6%;
+  }
 }
 @media (max-width: 765px) {
   .arrow-left,
@@ -146,10 +149,13 @@ html body {
     height: 52px;
   }
 }
-@media (max-width: 415px) {
+@media (max-width: 400px) {
   .arrow-left,
   .arrow-right {
     height: 43px;
+  }
+  .arrow-right {
+    right: 3.6%;
   }
 }
 .btn-arrow {
@@ -158,9 +164,19 @@ html body {
   font-size: 20px;
   z-index: 10;
   position: absolute;
-  top: 30%;
+  top: 35%;
 }
 
+@media (max-width: 996px) {
+  .btn-arrow {
+    top: 25%;
+  }
+}
+@media (max-width: 500px) {
+  .btn-arrow {
+    top: 15%;
+  }
+}
 .left {
   left: 10px;
 }
@@ -169,38 +185,26 @@ html body {
   right: 10px;
 }
 
-.pagination {
-  position: absolute;
-  bottom: 1%;
-  left: 3%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  margin-top: 20px;
-}
-
 #accounts-container {
   padding-bottom: 2.5rem;
 }
 
-.pagination button {
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
-  background-color: #e59866;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.withdrawal {
+  color: #e74c3c !important;
 }
 
-.pagination button:disabled {
-  background-color: #f4f6f7;
-  color: #aaa;
-  cursor: not-allowed;
+.deposit {
+  color: #2ecc71 !important;
 }
 
-.pagination button:hover {
-  background-color: #dc7633;
+.inactive {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.inactive:not(.show) {
+  opacity: 1 !important;
+}
+
+.inactive-arrow {
+  opacity: 0.2;
 }/*# sourceMappingURL=styles.css.map */
